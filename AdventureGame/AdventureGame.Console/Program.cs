@@ -14,7 +14,7 @@ class Program
         Player player = new Player("Hero", new Position(1, 1));
 
         // create maze 10 by 10
-        Maze maze = new Maze(7, 7, player.Position);
+        Maze maze = new Maze(10, 10, player.Position);
         maze.GenerateRandom(rand);
 
         GameEngine engine = new GameEngine(maze, player);
@@ -25,12 +25,10 @@ class Program
             DrawGame(engine);
             HandleInput(engine);
 
+
         }
-
-        DrawGame(engine);
-
         if (engine.PlayerWon)
-            Console.WriteLine("You finished the game");
+            Console.WriteLine("\nYou finished the game");
         else
             Console.WriteLine("You died, Game Over!");
 

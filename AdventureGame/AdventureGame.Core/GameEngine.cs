@@ -100,6 +100,7 @@ namespace AdventureGame.Core
                 IsGameOver = true;
                 PlayerWon = true;
                 LastMessage = "Congratulations, You found the exit and you have won!";
+                return;
             }
 
             if (tile.IsMonsterPresent())
@@ -108,17 +109,21 @@ namespace AdventureGame.Core
 
                 string battleMsg = FightMonster(monster);
 
+                // if player dead
                 if (!Player.IsAlive)
                 {
                     IsGameOver = true;
                     PlayerWon = false;
-                    LastMessage = battleMsg + " Monster won!, Game Over!";
+                    LastMessage = battleMsg;
                     return;
                 }
 
                 //Monster was defeated
-                tile.ClearMonster();
-                LastMessage = battleMsg + " Monster has been defeated!";
+                if (!monster.IsAlive)
+                {
+                    tile.ClearMonster();
+                }
+                LastMessage = battleMsg;
                 return;
             }
 
@@ -151,30 +156,38 @@ namespace AdventureGame.Core
                 return;
             }
 
-            // if tile is empty, print move forward
-            LastMessage = "You move forward";
+            
+            
         }
 
         private string FightMonster(Monster monster)
         {
+            
+            // continue the loop as long as player and monster are alive
             while (Player.IsAlive && monster.IsAlive)
             {
                 int playerDamage = Player.Attack(monster);
 
+                // if monster is dead
                 if (!monster.IsAlive)
                 {
-                    return $"You hit the {monster.Name} for {playerDamage} damage";
+                    return $"You hit the {monster.Name} for {playerDamage}. {monster.Name} has been defeated";
+                   
                 }
 
                 int monsterDamage = monster.Attack(Player);
 
+                // if monster kills player
                 if (!Player.IsAlive)
                 {
                     return $"You hit the {monster.Name} for {playerDamage} damage";
+                     
                 }
+
+                return $"You hit {monster.Name} for {playerDamage}. {monster.Name} hit for {monsterDamage}.\n";
             }
 
-            return "Fight has ended";
+            return "";
         }
 
     }
