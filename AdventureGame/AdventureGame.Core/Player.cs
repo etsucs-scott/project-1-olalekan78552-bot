@@ -6,17 +6,38 @@ using System.Threading.Tasks;
 
 namespace AdventureGame.Core
 {
+    /// <summary>
+    /// Represents the player character in the game, including health,
+    /// position, inventory, and combat abilities.
+    /// </summary>
     public class Player : ICharacter
     {
         private int _health;
         private readonly int _maxHealth = 150;
         private const int BaseDamage = 10;
+
+        /// <summary>
+        /// Gets the name of the player.
+        /// </summary>
         public string Name { get; }
 
+        /// <summary>
+        ///  Gets players current position in maze
+        /// </summary>
         public Position Position { get; private set; }
 
+
+        /// <summary>
+        /// Gets players inventory
+        /// </summary>
         public Inventory Inventory { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player"/> class
+        /// with a name and starting position.
+        /// </summary>
+        /// <param name="name">The name of the player.</param>
+        /// <param name="startPosition">The starting position of the player.</param>
         public Player(string name, Position startPosition)
         {
             Name = name;
@@ -26,8 +47,9 @@ namespace AdventureGame.Core
             Inventory = new Inventory();
         }
 
-
-        // get and return health
+        /// <summary>
+        /// Gets the current health of the player.
+        /// </summary>
         public int Health
         {
             get
@@ -36,7 +58,9 @@ namespace AdventureGame.Core
             }
         }
 
-        // get and return maxHealth
+        /// <summary>
+        /// Gets the maximum health of the player.
+        /// </summary>
         public int MaxHealth
         {
             get
@@ -45,8 +69,9 @@ namespace AdventureGame.Core
             }
         }
 
-        // get and return IsALive
-        // if health is greater than 0. then player/ monster is still alive
+        /// <summary>
+        ///  return a value indicating if the monster is still alive
+        /// </summary>
         public bool IsAlive
         {
             get
@@ -55,11 +80,15 @@ namespace AdventureGame.Core
             }
         }
 
+        /// <summary>
+        /// Attacks a target character using base damage and weapon bonus.
+        /// </summary>
+        /// <param name="target">The character being attacked.</param>
+        /// <returns>The total damage dealt to the target.</returns>
         public int Attack(ICharacter target)
         {
             int damage;
 
-            // add max weapon to base damage
             damage = BaseDamage + Inventory.HighestWeapon;
 
             // apply damage to target
@@ -68,43 +97,46 @@ namespace AdventureGame.Core
             return damage;
         }
 
-
+        /// <summary>
+        /// deduct damage from characters health
+        /// </summary>
+        /// <param name="amount"></param>
         public void TakeDamage(int amount)
         {
-            // if damage is less than or equal zero, do nothing
             if (amount <= 0)
             {
                 return;
             }
-
-            // deduct damage from current health
             _health = _health - amount;
 
-            // if health is less than 0, set health equal to zero
             if (_health < 0)
             {
                 _health = 0;
             }
-
-
         }
 
+        /// <summary>
+        /// restore players health when player picks up portions
+        /// portion will not exceed max health
+        /// </summary>
+        /// <param name="potion"></param>
         public void Heal(int potion)
         {
-            // if potion is less than or equal to zero
             if (potion <= 0)
                 return;
 
-            // add potion to health
             _health = _health + potion;
 
-            // if health is greater than max health, set health to max health
             if (_health > _maxHealth)
             {
                 _health = _maxHealth;
             }
         }
 
+        /// <summary>
+        /// move player to a new position in the maze
+        /// </summary>
+        /// <param name="newPosition"></param>
         public void MoveTo(Position newPosition)
         {
             Position = newPosition;

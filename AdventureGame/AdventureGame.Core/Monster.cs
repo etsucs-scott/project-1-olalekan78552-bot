@@ -6,15 +6,24 @@ using System.Threading.Tasks;
 
 namespace AdventureGame.Core
 {
-    
+    /// <summary>
+    /// Represents an enemy character in the game that can attack the player
+    /// and receive damage during combat.
+    /// </summary>
     public class Monster : ICharacter
     {
         private int _health;
-        private readonly int _maxHealth;
-        
+        private readonly int _maxHealth;        
         private const int BaseDamage = 10;
 
+        /// <summary>
+        /// gets the monsters name
+        /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// return the amount of health the monster has left
+        /// </summary>
         public int Health
         {
             get
@@ -23,6 +32,9 @@ namespace AdventureGame.Core
             }
         }
 
+        /// <summary>
+        /// return max health monster can have
+        /// </summary>
         public int MaxHealth 
         {   
             get
@@ -31,15 +43,22 @@ namespace AdventureGame.Core
             }
         }
 
+        /// <summary>
+        ///  return a value indicating if the monster is still alive
+        /// </summary>
         public bool IsAlive
         {
             get
-            {   // return alive if health is greater than 0
+            {   
                 return _health > 0;
             }
         }
 
-
+        /// <summary>
+        /// create an instance of the <see cref="Monster"/> 
+        /// </summary>                 
+        /// <param name="name">The name of the monster</param>
+        /// <param name="rand">A random number generator to generate monsters health</param>
         public Monster(string name, Random rand)
         {
             Name = name;
@@ -48,40 +67,36 @@ namespace AdventureGame.Core
 
         }
 
-
-
-
-
-
-
+        /// <summary>
+        /// Attack a target character and apply damage
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns></returns>
         public int Attack(ICharacter target)
         {
             int damage = BaseDamage;
-
-            // apply damage to target
             target.TakeDamage(damage);
 
             return damage;
         }
 
+        /// <summary>
+        /// deduct damage from characters health
+        /// </summary>
+        /// <param name="amount"></param>
         public void TakeDamage(int amount)
         {
-            // if damage is less than or equal zero, do nothing
             if (amount <= 0)
             {
                 return;
             }
 
-            // deduct damage from current health
             _health = _health - amount;
 
-            // if health is less than 0, set health equal to zero
             if (_health < 0)
             {
                 _health = 0;
             }
-
-
         }
     }
 }

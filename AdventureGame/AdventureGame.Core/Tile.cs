@@ -6,19 +6,32 @@ using System.Threading.Tasks;
 
 namespace AdventureGame.Core
 {
-    
+    /// <summary>
+    /// Represents a single tile in the maze, which may contain a type,
+    /// an item, or a monster.
+    /// </summary>
     public class Tile
     {
-        // declare tileType property
+        /// <summary>
+        /// Gets the type of the tile.
+        /// </summary>
         public TileType Type { get; private set; }
 
-        // declare and set Item property
+        /// <summary>
+        /// Gets the item present on the tile, if any.
+        /// </summary>
         public Item Item { get; private set; }
 
-        // declare and set monster property
+        /// <summary>
+        /// Gets the monster present on the tile, if any.
+        /// </summary>
         public Monster Monster { get; private set; }
 
-        // tile constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tile"/> class
+        /// with the specified tile type.
+        /// </summary>
+        /// <param name="type">The type of the tile.</param>
         public Tile(TileType type)
         {
             Type = type;
@@ -26,49 +39,63 @@ namespace AdventureGame.Core
             Monster = null;
         }
 
-        // check if position is empty
-        public bool IsPositionWalakable()
+        /// <summary>
+        /// Determines whether the tile can be walked on by the player.
+        /// </summary>
+        /// <returns>True if the tile is walkable; otherwise, false.</returns>
+        public bool IsPositionWalkable()
         {
             return Type != TileType.Wall;
             
         }
 
-        // check if tile has an item
+        /// <summary>
+        /// Determines whether the tile contains an item.
+        /// </summary>
+        /// <returns>True if an item is present; otherwise, false.</returns>
         public bool TileHasItem()
         {
             return Item != null;
         }
 
-
-
-        // check if monster is present on tile
+        /// <summary>
+        /// Determines whether a monster is present on the tile.
+        /// </summary>
+        /// <returns>True if a monster is present; otherwise, false.</returns>
         public bool IsMonsterPresent()
         {
             return Monster != null;
         }
 
-
-        // set monster on tile
+        /// <summary>
+        /// Places a monster on the tile.
+        /// </summary>
+        /// <param name="monster">The monster to place on the tile.</param>
         public void PutMonster(Monster monster)
         {
             Monster = monster;
         }
 
-        // set Item on Tile
+        /// <summary>
+        /// Places an item on the tile.
+        /// </summary>
+        /// <param name="item">The item to place on the tile.</param>
         public void PutItem(Item item)
         {
             Item = item;
         }
 
-
-        // clear item after player picks up
+        /// <summary>
+        /// Removes the item from the tile.
+        /// </summary>
         public void ClearItem()
         {
             Item = null;
         }
 
-
-        // clear monster if monster is dead
+        /// <summary>
+        /// Removes the monster from the tile.
+        /// </summary>
         public void ClearMonster()
         {
             Monster = null;

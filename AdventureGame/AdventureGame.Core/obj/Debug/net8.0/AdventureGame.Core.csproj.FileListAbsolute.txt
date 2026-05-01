@@ -1,0 +1,12 @@
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\bin\Debug\net8.0\AdventureGame.Core.deps.json
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\bin\Debug\net8.0\AdventureGame.Core.dll
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\bin\Debug\net8.0\AdventureGame.Core.pdb
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.AssemblyInfoInputs.cache
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.AssemblyInfo.cs
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.csproj.CoreCompileInputs.cache
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.sourcelink.json
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.dll
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\refint\AdventureGame.Core.dll
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\AdventureGame.Core.pdb
+C:\Users\olale\source\repos\project-1-olalekan78552-bot\AdventureGame\AdventureGame.Core\obj\Debug\net8.0\ref\AdventureGame.Core.dll

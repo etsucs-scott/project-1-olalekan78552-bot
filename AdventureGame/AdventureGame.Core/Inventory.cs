@@ -6,12 +6,17 @@ using System.Threading.Tasks;
 
 namespace AdventureGame.Core
 {
+    /// <summary>
+    ///  Represent player's inventory, stores pickup weapon and provide access to       
+    ///  strongest weapon
+    /// </summary>
     public class Inventory
     {
-        // store weapon object inside a list
-
         private readonly List<Weapon> _weapons = new List<Weapon>();
 
+        /// <summary>
+        /// return a list of weapons in player inventory
+        /// </summary>
         public IReadOnlyList<Weapon> Weapons
         {
             get
@@ -20,6 +25,10 @@ namespace AdventureGame.Core
             }
         }
 
+        /// <summary>
+        /// Gets the highest attack modifier among all weapon and returns 0 if weapon is 
+        /// present 
+        /// </summary>
         public int HighestWeapon
         {
             get
@@ -31,8 +40,15 @@ namespace AdventureGame.Core
             }
         }
 
+        /// <summary>
+        /// Add a weapon to the inventory
+        /// </summary>
         public void AddWeapon(Weapon weapon)
         {
+            if (weapon == null)
+            {
+                return;
+            }
             _weapons.Add(weapon);
         }
     }

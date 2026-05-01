@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 using AdventureGame.Core;
 class Program
 {
+    /// <summary>
+    /// Starts the adventure game, creates the player, maze, and game engine,
+    /// then runs the main game loop until the player wins or loses.
+    /// </summary>
+    /// <param name="args">Command-line arguments passed to the program.</param>
     static void Main(string[] args)
     {
         Random rand = new Random();
 
-        // create player 
         Player player = new Player("Hero", new Position(1, 1));
 
-        // create maze 10 by 10
         Maze maze = new Maze(10, 10, player.Position);
         maze.GenerateRandom(rand);
 
         GameEngine engine = new GameEngine(maze, player);
 
-        // game loop
         while (!engine.IsGameOver)
         {
             DrawGame(engine);
             HandleInput(engine);
-
-
         }
         if (engine.PlayerWon)
             Console.WriteLine("\nYou finished the game");
@@ -33,15 +33,12 @@ class Program
             Console.WriteLine("You died, Game Over!");
 
         Console.ReadKey();
-
-
-        
-
-        
-
-
     }
 
+    /// <summary>
+    /// Reads the player's keyboard input and moves the player in the selected direction.
+    /// </summary>
+    /// <param name="engine">The game engine used to process player movement.</param>
     static void HandleInput(GameEngine engine)
     {
         ConsoleKey key = Console.ReadKey(true).Key;
@@ -62,6 +59,11 @@ class Program
 
     }
 
+    /// <summary>
+    /// Draws the current maze, player, monsters, items, health, weapon bonus,
+    /// and latest game message to the console.
+    /// </summary>
+    /// <param name="engine">The game engine containing the current game state.</param>
     static void DrawGame(GameEngine engine)
     {
         Console.Clear();
@@ -77,15 +79,11 @@ class Program
                 Position coord = new Position(x, y);
                 Tile tile = maze.GetTile(coord);
 
-
-                // Player
                 if (player.Position.X == x && player.Position.Y == y)
                 {
                     Console.Write("@ ");
-
                 }
 
-                // Wall
                 else if (tile.Type == TileType.Wall)
                 {
                     Console.Write("# ");
@@ -108,8 +106,6 @@ class Program
                 else if (tile.TileHasItem() && tile.Item is Potion)
                 {
                     Console.Write("P ");
-
-
                 }
 
                 else
@@ -128,15 +124,3 @@ class Program
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

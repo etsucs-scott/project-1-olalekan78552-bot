@@ -10,24 +10,33 @@ namespace AdventureGame.Core
     {
         public Maze Maze { get; }
         public Player Player { get; }
-
         public bool IsGameOver { get; private set; }
         public bool PlayerWon { get; private set; }
-
         public string LastMessage { get; private set; }
 
-        // game egine constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameEngine"/> class
+        /// with the specified maze and player.
+        /// </summary>
+        /// <param name="maze">The maze used for the game.</param>
+        /// <param name="player">The player participating in the game.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the maze or player is null.
+        /// </exception>
         public GameEngine(Maze maze, Player player)
         {
-            //set maze to maze if not null
             Maze = maze ?? throw new ArgumentNullException(nameof(maze));
             Player = player ?? throw new ArgumentNullException(nameof(player));
-
             IsGameOver = false;
             PlayerWon = false;
             LastMessage = " ";
         }
 
+        /// <summary>
+        /// Attempts to move the player in the specified direction.
+        /// Validates movement boundaries and resolves tile interactions.
+        /// </summary>
+        /// <param name="direction">The direction the player wants to move.</param>
         public void TryMove(Direction direction)
         {
             if (IsGameOver)
@@ -39,7 +48,6 @@ namespace AdventureGame.Core
             Position current = Player.Position;
             Position next = GetNextPosition(current, direction);
 
-            // check off grid
             if (!Maze.InMaze(next))
             {
                 LastMessage = "You can't go that way";
@@ -48,23 +56,23 @@ namespace AdventureGame.Core
 
             Tile nextTile = Maze.GetTile(next);
 
-            // check wall
-
-            if (!nextTile.IsPositionWalakable())
+            if (!nextTile.IsPositionWalkable())
             {
                 LastMessage = "You hit a wall";
                 return;
             }
 
-            // move player
             Player.MoveTo(next);
             ResolveTile(nextTile);
-
         }
 
-        
-
-
+        /// <summary>
+        /// Calculates the next position based on the current position
+        /// and the given movement direction.
+        /// </summary>
+        /// <param name="current">The current player position.</param>
+        /// <param name="direction">The direction of movement.</param>
+        /// <returns>The new calculated position.</returns>
         private Position GetNextPosition(Position current, Direction direction)
         {
             int x = current.X;
@@ -92,9 +100,13 @@ namespace AdventureGame.Core
                 return new Position(x, y);
         }
 
+        /// <summary>
+        /// Resolves interactions when the player enters a tile,
+        /// including exit detection, combat, and item pickup.
+        /// </summary>
+        /// <param name="tile">The tile the player has moved onto.</param>
         private void ResolveTile(Tile tile)
         {
-            // exit game
             if (tile.Type == TileType.Exit)
             {
                 IsGameOver = true;
@@ -109,7 +121,6 @@ namespace AdventureGame.Core
 
                 string battleMsg = FightMonster(monster);
 
-                // if player dead
                 if (!Player.IsAlive)
                 {
                     IsGameOver = true;
@@ -118,7 +129,6 @@ namespace AdventureGame.Core
                     return;
                 }
 
-                //Monster was defeated
                 if (!monster.IsAlive)
                 {
                     tile.ClearMonster();
@@ -127,13 +137,9 @@ namespace AdventureGame.Core
                 return;
             }
 
-
-            // pick up Items
             if(tile.TileHasItem())
             {
                 Item item = tile.Item;
-
-                // add weapon to inventory
                 if (item is Weapon weapon)
                 {
                     Player.Inventory.AddWeapon(weapon);
@@ -142,7 +148,6 @@ namespace AdventureGame.Core
                     return;
                 }
 
-                // Pick potion to increase health
                 if (item is Potion potion)
                 {
                     Player.Heal(potion.HealPotion);
@@ -154,41 +159,42 @@ namespace AdventureGame.Core
                 tile.ClearItem();
                 LastMessage = "You picked an item";
                 return;
-            }
-
-            
-            
+            }   
         }
 
+        /// <summary>
+        /// Handles combat between the player and a monster.
+        /// Continues until either the player or the monster is defeated.
+        /// </summary>
+        /// <param name="monster">The monster being fought.</param>
+        /// <returns>
+        /// A string describing the sequence of battle events and outcome.
+        /// </returns>
         private string FightMonster(Monster monster)
         {
+            string battleMessage = "";
             
-            // continue the loop as long as player and monster are alive
             while (Player.IsAlive && monster.IsAlive)
             {
                 int playerDamage = Player.Attack(monster);
+                battleMessage += $"You hit {monster.Name} for {playerDamage} damage.\n"; 
 
-                // if monster is dead
                 if (!monster.IsAlive)
                 {
-                    return $"You hit the {monster.Name} for {playerDamage}. {monster.Name} has been defeated";
-                   
+                    battleMessage += $"Monster has been defeated";
+                    break;   
                 }
 
                 int monsterDamage = monster.Attack(Player);
+                battleMessage += $"{monster.Name} hits you for {playerDamage} damage.\n";
 
-                // if monster kills player
                 if (!Player.IsAlive)
                 {
-                    return $"You hit the {monster.Name} for {playerDamage} damage";
-                     
-                }
-
-                return $"You hit {monster.Name} for {playerDamage}. {monster.Name} hit for {monsterDamage}.\n";
+                    battleMessage += $"You've been defeated";
+                    break;  
+                }    
             }
-
-            return "";
+            return battleMessage;
         }
-
     }
 }

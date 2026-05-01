@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AdventureGame.Core
 {
+    /// <summary>
+    /// Represent players direction on the board
+    /// </summary>
     public enum Direction
     {
         Up,
