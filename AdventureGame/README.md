@@ -2,77 +2,121 @@
 
 ## How to Build and Run
 
-Open a terminal in the main project folder and run:
+1. Open a terminal in the project root folder.
 
+2. Build the project:
 dotnet build
 
-Then run the console project:
+3. Run the game:
+dotnet run --project AdventureGame/AdventureGame.Console
 
-dotnet run --project AdventureGame.Console
+The game will launch in the console and display the maze.
 
 ## Movement Controls
 
-The player can move using either WASD or the arrow keys:
+The player can move using:
 
-W or Up Arrow = move up  
-S or Down Arrow = move down  
-A or Left Arrow = move left  
-D or Right Arrow = move right  
+W or Up Arrow = Move Up  
+S or Down Arrow = Move Down  
+A or Left Arrow = Move Left  
+D or Right Arrow = Move Right  
 
-Moving into a wall or outside the maze does not move the player. A short error message is displayed.
+Invalid moves (into walls or outside the maze) do not change the player's position and display a message.
 
 ## Display Format
 
-The maze is displayed using symbols:
+The maze is displayed using the following symbols:
 
 @ = Player  
-# = Wall  
+# = Wall (not walkable)  
 . = Empty tile  
-E = Exit  
+E = Exit (goal)  
 M = Monster  
 W = Weapon  
 P = Potion  
 
-The game also displays the player's current HP, maximum HP, highest weapon bonus, and the latest game message.
+Below the maze, the game displays:
+
+- Player HP (current / max)  
+- Maximum weapon bonus from inventory  
+- Last action message (movement, combat, or pickup)
+
 
 ## Win and Lose Conditions
 
-The player wins by reaching the exit tile (E).
+Win Condition:  
+The player reaches the exit tile (E).
 
-The player loses if their HP reaches 0.
+Lose Condition:  
+The player’s HP reaches 0 during combat.
+
 
 ## Battle Rules
 
-Battle starts automatically when the player moves onto a monster tile. The player attacks first each round. Damage is calculated as base damage (10) plus the highest weapon modifier. If the monster survives, it counterattacks. Battle continues until either the player or the monster reaches 0 HP. There is no fleeing. After a monster is defeated, the tile becomes empty.
+- Battle starts automatically when the player moves onto a tile containing a monster.
+- The player always attacks first.
+- Damage is calculated as:
+
+Base Damage (10) + Highest Weapon Modifier
+
+- If the monster survives, it counterattacks.
+- Combat continues in a loop until either the player or the monster reaches 0 HP.
+- The player cannot flee from battle.
+- After a monster is defeated, the tile becomes empty and can be re-entered.
 
 ## Items
 
-Item pickup is automatic. Weapons increase the player's attack damage by adding a modifier. Potions restore health. After an item is picked up, the tile becomes empty.
+Item pickup is automatic when the player steps on a tile containing an item.
+
+Weapons:
+- Increase the player’s attack damage.
+- The highest weapon modifier in the inventory is used.
+
+Potions:
+- Restore player health (up to max health).
+
+After pickup, the tile becomes empty.
+
 
 ## Maze Generation
 
-The maze is randomly generated with a minimum size of 10x10. The exit is guaranteed to be reachable. Walls, monsters, weapons, and potions are placed randomly.
+- The maze is randomly generated using a Random object.
+- Size: 10 x 10 grid.
+- The exit is placed near the bottom-right of the maze.
+- A valid path is generated from the player’s starting position to the exit to ensure it is reachable.
+- Walls are placed around the borders.
+- Monsters, weapons, and potions are randomly distributed on empty tiles.
+
 
 ## UML Diagram
 
 File: AdventureGame_UML.png
 
-The UML diagram shows the main classes in the project including GameEngine, Maze, Tile, Player, Monster, Inventory, Item, Weapon, Potion, and ICharacter. It also illustrates relationships such as inheritance, composition, and interface implementation.
+The UML diagram includes:
+
+- GameEngine (controls game flow and logic)
+- Maze (grid structure and generation)
+- Tile (individual cell with type, item, or monster)
+- Player (implements ICharacter, handles movement, health, inventory)
+- Monster (implements ICharacter, handles combat)
+- Inventory (stores weapons and calculates highest modifier)
+- Item (base class)
+- Weapon and Potion (derived item types)
+- ICharacter interface (shared combat behavior)
+
+It shows relationships such as inheritance, composition, and interface implementation.
+
 
 ## Git Usage
 
-To clone the repository:
-
+Clone the repository:
 git clone <https://github.com/etsucs-scott/project-1-olalekan78552-bot.git>
 
-Navigate into the project folder:
-
+Navigate to the project folder:
 cd project-1-olalekan78552-bot
 
 Build the project:
-
 dotnet build
 
 Run the game:
-
 dotnet run --project AdventureGame/AdventureGame.Console
